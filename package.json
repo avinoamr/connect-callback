@@ -1,0 +1,22 @@
+{
+    "name": "connect-callback",
+    "version": "0.0.1",
+    "description": "A middleware for Connect and Express that allows sending data to a response stream using the callback API",
+    "keywords": [ "response", "http", "connect", "middleware", "express", "callback" ],
+    "author": "Roi Avinoam <avinoamr@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/avinoamr/connect-callback.git"
+    },
+    "devDependencies": {
+        "mocha": "*"
+    },
+    "main": "index",
+    "license": "MIT",
+    "engines": {
+        "node": "*"
+    },
+    "scripts": {
+        "test": "node_modules/mocha/bin/mocha"
+    }
+}
