@@ -2,7 +2,7 @@ var http = require( "http" );
 
 var send = function( res, code, data ) {
     if ( res.send ) { return res.send( code, data ); } // express response
-    if ( code ) { res.writeHead( code ); }
+    if ( code ) { res.writeHead( code, http.STATUS_CODES[code] ); }
     if ( data ) { res.write( data ) }
     res.end();
 };
