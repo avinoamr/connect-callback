@@ -62,6 +62,7 @@ describe( "connect-callback", function() {
     it( "supports named errors", function( done ) {
         function ForbiddenError( msg ) {
             Error.call( this, msg );
+            this.message = msg;
             this.name = arguments.callee.name;
         }
         ForbiddenError.prototype = Error.prototype;
@@ -72,7 +73,7 @@ describe( "connect-callback", function() {
                 code = lcode;
             },
             write: function( lbody ) {
-                assert.fail( "write", "nothing" );
+                assert.equal( lbody, "ForbiddenError: You're not an admin" )
             },
             end: function() {
                 assert.equal( code, 403 );
@@ -86,9 +87,10 @@ describe( "connect-callback", function() {
     });
 
 
-    it( "treats validation errors as bad requests (404)", function( done ) {
+    it( "treats validation errors as bad requests (400)", function( done ) {
         function ValidationError( msg ) {
             Error.call( this, msg );
+            this.message = msg;
             this.name = arguments.callee.name;
         }
         ValidationError.prototype = Error.prototype;
@@ -99,7 +101,7 @@ describe( "connect-callback", function() {
                 code = lcode;
             },
             write: function( lbody ) {
-                assert.fail( "write", "nothing" );
+                assert.equal( lbody, "ValidationError: something is invalid" )
             },
             end: function() {
                 assert.equal( code, 400 );

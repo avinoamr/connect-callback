@@ -14,7 +14,14 @@ module.exports = function( errors ) {
         res.callback = function( err, data ) {
             var code = 200;
             if ( err ) {
+                if ( typeof err == "string" ) {
+                    err = new Error( err )
+                    err.name = "Invalid"
+                }
                 code = err.http_code || errors[ err.name ] || 500;
+                if ( !data && code != 500 ) {
+                    data = err.toString()
+                }
             }
             send( res, code, data );
         }

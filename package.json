@@ -1,6 +1,6 @@
 {
     "name": "connect-callback",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": "A middleware for Connect and Express that allows sending data to a response stream using the callback API",
     "keywords": [ "response", "http", "connect", "middleware", "express", "callback" ],
     "author": "Roi Avinoam <avinoamr@gmail.com>",
