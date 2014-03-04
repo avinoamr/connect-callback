@@ -15,9 +15,9 @@ module.exports = function( errors ) {
             var code = 200;
             if ( err ) {
                 if ( typeof err == "string" ) {
-                    data || ( data = err )
-                    err = new Error( err )
-                    err.name = "Invalid"
+                    data = err;
+                    err = new Error( err );
+                    err.name = "Invalid";
                 }
                 code = err.http_code || errors[ err.name ] || 500;
             }
