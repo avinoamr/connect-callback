@@ -34,7 +34,7 @@ module.exports.errors = {
 
 for ( var code in http.STATUS_CODES ) {
     if ( code < 400 ) continue;
-    var reason = http.STATUS_CODES[ code ].replace( " ", "" );
+    var reason = http.STATUS_CODES[ code ].replace( /\ /g, "" );
     module.exports.errors[ reason ] = code;
     module.exports.errors[ reason + "Error" ] = code;
 }

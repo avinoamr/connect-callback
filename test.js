@@ -60,12 +60,12 @@ describe( "connect-callback", function() {
 
 
     it( "supports named errors", function( done ) {
-        function ForbiddenError( msg ) {
+        function MethodNotAllowedError( msg ) {
             Error.call( this, msg );
             this.message = msg;
             this.name = arguments.callee.name;
         }
-        ForbiddenError.prototype = Error.prototype;
+        MethodNotAllowedError.prototype = Error.prototype;
 
         var code;
         var res = {
@@ -73,15 +73,15 @@ describe( "connect-callback", function() {
                 code = lcode;
             },
             write: function( lbody ) {
-                assert.equal( lbody, "ForbiddenError: You're not an admin" )
+                assert.equal( lbody, "MethodNotAllowedError: You're not an admin" )
             },
             end: function() {
-                assert.equal( code, 403 );
+                assert.equal( code, 405 );
                 done();
             }
         };
         connectcb()( {}, res, function() {
-            var err = new ForbiddenError( "You're not an admin" );
+            var err = new MethodNotAllowedError( "You're not an admin" );
             res.callback( err );
         });
     });
