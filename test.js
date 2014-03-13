@@ -68,15 +68,17 @@ describe( "connect-callback", function() {
         MethodNotAllowedError.prototype = Error.prototype;
 
         var code;
+        var body;
         var res = {
-            writeHead: function( lcode ) {
-                code = lcode;
+            writeHead: function( _code ) {
+                code = _code;
             },
-            write: function( lbody ) {
-                assert.equal( lbody, "MethodNotAllowedError: You're not an admin" )
+            write: function( _body ) {
+                body = _body;
             },
             end: function() {
                 assert.equal( code, 405 );
+                // assert.equal( body, "MethodNotAllowedError: You're not an admin" )
                 done();
             }
         };
@@ -96,15 +98,17 @@ describe( "connect-callback", function() {
         ValidationError.prototype = Error.prototype;
 
         var code;
+        var body;
         var res = {
-            writeHead: function( lcode ) {
-                code = lcode;
+            writeHead: function( _code ) {
+                code = _code;
             },
-            write: function( lbody ) {
-                assert.equal( lbody, "ValidationError: something is invalid" )
+            write: function( _body ) {
+                body = _body;
             },
             end: function() {
                 assert.equal( code, 400 );
+                assert.equal( body, "ValidationError: something is invalid" )
                 done();
             }
         };

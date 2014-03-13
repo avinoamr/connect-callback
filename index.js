@@ -2,7 +2,7 @@ var http = require( "http" );
 
 var send = function( res, code, data ) {
     if ( res.send ) { return res.send( code, data ); } // express response
-    if ( code ) { res.writeHead( code, http.STATUS_CODES[code] ); }
+    if ( code ) { res.writeHead( code, http.STATUS_CODES[ code ] ); }
     if ( data ) { res.write( data ) }
     res.end();
 };
@@ -19,7 +19,13 @@ module.exports = function( errors ) {
                     err = new Error( err );
                     err.name = "Invalid";
                 }
+
                 code = err.http_code || errors[ err.name ] || 500;
+                if ( code == 400 ) { // bad request errors can be verbose
+                    data = err.toString()
+                } else if ( !data ) {
+                    data = http.STATUS_CODES[ code ];
+                }
             }
             send( res, code, data );
         }
