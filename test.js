@@ -119,4 +119,52 @@ describe( "connect-callback", function() {
     });
 
 
+    it( "converts codes to response text", function( done ) {
+        var code;
+        var body;
+        var res = {
+            writeHead: function( _code ) {
+                code = _code;
+            },
+            write: function( _body ) {
+                body = _body;
+            },
+            end: function() {
+                assert.equal( code, 403 );
+                assert.equal( body, "Forbidden" )
+                done();
+            }
+        };
+        connectcb()( {}, res, function() {
+            var err = new Error( "Something went wrong" )
+            err.http_code = 403;
+            res.callback( err );
+        });
+    });
+
+
+    it( "doesn't convert codes to already-defined text", function( done ) {
+        var code;
+        var body;
+        var res = {
+            writeHead: function( _code ) {
+                code = _code;
+            },
+            write: function( _body ) {
+                body = _body;
+            },
+            end: function() {
+                assert.equal( code, 403 );
+                assert.equal( body, "This is a user-friendly output" )
+                done();
+            }
+        };
+        connectcb()( {}, res, function() {
+            var err = new Error( "Something went wrong" )
+            err.http_code = 403;
+            res.callback( err, "This is a user-friendly output" );
+        });
+    })
+
+
 });
