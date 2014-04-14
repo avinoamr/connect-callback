@@ -7,8 +7,9 @@ var send = function( res, code, data ) {
     res.end();
 };
 
-module.exports = function( errors ) {
+module.exports = function( errors, options ) {
     errors || ( errors = arguments.callee.errors );
+    options || ( options = {} );
     return function( req, res, next ) {
         if ( res.callback ) { return next(); }
         res.callback = function( err, data ) {
@@ -25,6 +26,10 @@ module.exports = function( errors ) {
                     data = err.toString()
                 } else if ( !data ) {
                     data = http.STATUS_CODES[ code ];
+                }
+
+                if ( options.log ) {
+                    console.error( "ERROR (connect-callback) " + code, err )
                 }
             }
             send( res, code, data );

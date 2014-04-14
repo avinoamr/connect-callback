@@ -167,4 +167,24 @@ describe( "connect-callback", function() {
     })
 
 
+    it( "logs errors to the console", function( done ) {
+        var cerror = console.error;
+        console.error = function( msg, err ) {
+            console.error = cerror;
+            assert.equal( msg, "ERROR (connect-callback) 500" );
+            assert.equal( err.message, "Something went wrong" );
+            done();
+        }
+        var res = {
+            writeHead: function() {},
+            write: function() {},
+            end: function() {}
+        };
+        connectcb( null, { log: true })( {}, res, function() {
+            var err = new Error( "Something went wrong" )
+            res.callback( err );
+        });
+    });
+
+
 });
